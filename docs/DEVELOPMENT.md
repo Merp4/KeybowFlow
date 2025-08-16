@@ -1,25 +1,48 @@
 # Development Guide
 
-Advanced development workflow and debugging for the Keybow 2040.
+Development workflow and debugging for the Keybow 2040.
 
 ## Development Workflow
 
-### Standard development
+### Standard Development
 
 1. Edit configuration (modify `keymap.py` or create a new config).
 2. Deploy files to the CIRCUITPY drive (manual or using `scripts/deploy.py`).
 3. Monitor serial output for debugging.
 
-### Custom configuration
+### Custom Configuration
 
 Start from an example in `examples/configs/`, edit it, and deploy using `scripts/deploy.py`.
 
 
 ## Serial Monitoring
 
-### Serial monitoring
+Use a serial terminal to monitor device output:
 
-Use a serial terminal to monitor the device output. On Unix-like systems `screen` or `picocom` are common; on Windows use a serial terminal application. Replace the device path/port as appropriate for your system.
+**Unix/Linux/macOS:**
+
+```bash
+# Using screen
+screen /dev/ttyACM0 115200
+
+# Using picocom
+picocom /dev/ttyACM0 -b 115200
+```
+
+**Windows:**
+
+```powershell
+# List available COM ports
+Get-WmiObject -Class Win32_SerialPort | Select-Object Name, DeviceID
+
+# Using plink (PuTTY command line)
+plink -serial COM3 -sercfg 115200,8,n,1,N
+
+# Alternative: Use PuTTY GUI or Windows Terminal
+# First, find the COM port in Device Manager if needed
+```
+
+Replace the device path/port (e.g., `/dev/ttyACM0` or `COM3`) as appropriate for your system.
 
 
 ## Debug Output
@@ -36,7 +59,7 @@ Key 12 pressed - Layer: VS Code
 
 ### Import Errors
 
-- Copy files manually: `cp src/*.py /path/to/CIRCUITPY/` (simpler than scripts)
+- Copy files manually: `cp src/*.py /path/to/CIRCUITPY/`
 - Check `lib/` folder has all libraries
 
 If `lib/pmk` is missing (PMK library submodule), run:

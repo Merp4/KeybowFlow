@@ -1,6 +1,6 @@
 # KeybowFlow Documentation
 
-Guides for using and developing with KeybowFlow - Professional workflow automation for Keybow 2040.
+Documentation for using and developing with KeybowFlow.
 
 ## User Guides
 
@@ -10,17 +10,17 @@ Installation instructions and quick start steps.
 
 ### [Configuration Guide](CONFIGURATION_GUIDE.md)
 
-How to create and customize configurations, including examples and testing notes.
+How to create and customize configurations, with examples and testing notes.
 
 ## Reference Documentation
 
 ### [Key Reference](KEY_REFERENCE.md)
 
-Reference for all available keys, consumer control codes, modifiers, and examples.
+Available keys, consumer control codes, modifiers, and examples.
 
 ### [Action Reference](ACTION_REFERENCE.md)
 
-Reference for action types, layer configuration, color themes, and action composition.
+Action types, layer configuration, color themes, and action composition.
 
 ## Developer Guides
 

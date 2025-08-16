@@ -6,12 +6,12 @@ Guide for creating custom Keybow 2040 configurations.
 
 ### 1. Choose a Template
 
-Start with the simplest configuration that matches your needs:
+Start with a configuration that matches your needs:
 
-- **ultra_simple_numpad.py** - Basic 16-key numpad
-- **productivity_simple.py** - Text editing shortcuts  
-- **gaming_simple.py** - Gaming macros and controls
-- **work_gaming_switch.py** - Multi-layer work/gaming toggle
+- ultra_simple_numpad.py - Basic 16-key numpad
+- productivity_simple.py - Text editing shortcuts  
+- gaming_simple.py - Gaming macros and controls
+- work_gaming_switch.py - Multi-layer work/gaming toggle
 
 ### 2. Copy and Rename
 

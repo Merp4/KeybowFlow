@@ -1,15 +1,15 @@
-# Keybow 2040 Installation Guide
+# Installation Guide
 
-## Quick start
+## Setup
 
 1. Download `keybow-device-files.zip` from the project's releases.
-2. Extract the files to your Keybow 2040 device (it appears as the CIRCUITPY drive when connected).
+2. Extract the files to your Keybow 2040 device (appears as the CIRCUITPY drive when connected).
 3. Edit `keymap.py` to customize key behavior.
-4. The device typically restarts after copying files.
+4. The device restarts after copying files.
 
-## Manual setup (development)
+## Development Setup
 
-If working from source code:
+For development from source code:
 
 1. **Copy files manually**:
 
@@ -25,25 +25,23 @@ If working from source code:
    python scripts/deploy.py numpad_minimal.py
    ```
 
-Manual copying may be simpler than scripts for some workflows.
-
 ## CircuitPython Firmware
 
-Download Keybow 2040 CircuitPython firmware from:
+Download CircuitPython firmware for Keybow 2040 from:
 
 - <https://downloads.circuitpython.org/bin/pimoroni_keybow2040/>
 
 ## Customization
 
-- Extract `keybow-examples.zip` for pre-built configurations
-- Copy any example config over your existing files
-- See `README.md` for detailed customization instructions
+- Extract `keybow-examples.zip` for configurations
+- Copy any example config over existing files
+- See `README.md` for customization instructions
 
 ## Troubleshooting
 
-- **Device not appearing?** Try different USB cable or port
-- **Code not working?** Check for syntax errors in `keymap.py`
-- **Missing features?** Ensure all files from ZIP are copied
+- **Device not appearing**: Try different USB cable or port
+- **Code not working**: Check for syntax errors in `keymap.py`
+- **Missing features**: Ensure all files from ZIP are copied
 
 See the README.md for additional information.
 

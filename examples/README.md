@@ -1,8 +1,8 @@
 # Example Configurations
 
-7 ready-to-use layouts for the Pimoroni Keybow 2040. Each config is complete and self-contained.
+7 configurations for the Pimoroni Keybow 2040. Each config is complete and self-contained.
 
-## Quick Deployment
+## Deployment
 
 **Copy any config as your keymap:**
 
@@ -10,7 +10,7 @@
 2. **Copy it to replace your keymap:**
    - Copy the config file over `src/keymap.py`
    - Copy `src/*.py` to your CIRCUITPY drive
-3. **Your device will restart automatically**
+3. **Device will restart automatically**
 
 **Examples:**
 
@@ -34,16 +34,16 @@ python scripts/deploy.py numpad_minimal.py
 
 ### Single-Layer Layouts
 
-- **[`numpad_minimal.py`](configs/numpad_minimal.py)** — Clean calculator-style numpad
-- **[`gaming_simple.py`](configs/gaming_simple.py)** — WASD gaming keys and function keys
-- **[`productivity_simple.py`](configs/productivity_simple.py)** — Common edit/navigation shortcuts
-- **[`simple_numpad_lean.py`](configs/simple_numpad_lean.py)** — Alternative minimal numpad layout
+- [`numpad_minimal.py`](configs/numpad_minimal.py) — Calculator-style numpad
+- [`gaming_simple.py`](configs/gaming_simple.py) — WASD gaming keys and function keys
+- [`productivity_simple.py`](configs/productivity_simple.py) — Common edit/navigation shortcuts
+- [`simple_numpad_lean.py`](configs/simple_numpad_lean.py) — Alternative minimal numpad layout
 
 ### Multi-Layer Layouts
 
-- **[`work_gaming_switch.py`](configs/work_gaming_switch.py)** — Dual-mode work/gaming switcher
-- **[`streaming_setup.py`](configs/streaming_setup.py)** — Streaming controls and hotkeys  
-- **[`developer_multitool.py`](configs/developer_multitool.py)** — Development environment with layers
+- [`work_gaming_switch.py`](configs/work_gaming_switch.py) — Dual-mode work/gaming switcher
+- [`streaming_setup.py`](configs/streaming_setup.py) — Streaming controls and hotkeys  
+- [`developer_multitool.py`](configs/developer_multitool.py) — Development environment with layers
 
 ## Making your own
 
