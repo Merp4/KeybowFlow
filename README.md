@@ -51,6 +51,10 @@ Copy this as `keymap.py` to your device and customize!
 - **Firmware**: CircuitPython 9.2.8+
 - **Development**: Python 3.13+ (for modifications)
 
+## Credits
+
+KeybowFlow is built on the excellent [PMK (Pimoroni Mechanical/Mushy Keypad) library](https://github.com/pimoroni/pmk-circuitpython) by Pimoroni. The multi-layer configuration system is inspired by the [`hid-keypad-fifteen-layers.py`](lib/pmk/examples/hid-keypad-fifteen-layers.py) example by Sandy Macdonald.
+
 ## Additional Information
 
 - [Changelog](CHANGELOG.md) - Version history and release notes
