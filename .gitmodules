@@ -1,0 +1,5 @@
+# Git submodules configuration
+# This file tracks git submodules used for libraries that don't support proper versioning
+[submodule "lib/pmk"]
+	path = lib/pmk
+	url = https://github.com/pimoroni/pmk-circuitpython.git

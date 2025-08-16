@@ -1,0 +1,7 @@
+# CircuitPython Development Requirements
+# CircUp for managing CircuitPython libraries
+circup==2.2.2
+
+# Note: Adafruit libraries are managed via CircuitPython bundles, not pip.
+# See .github/workflows/ for bundle version (currently: 20250810)
+# Use: circup install adafruit_hid adafruit_bus_device adafruit_is31fl3731

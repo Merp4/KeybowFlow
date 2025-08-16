@@ -1,0 +1,176 @@
+name: Test Build
+
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: '3.13'
+  BUNDLE_VERSION: '20250810'
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5.0.0
+      with:
+        submodules: recursive
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5.6.0
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
+        
+    - name: Validate requirements.txt
+      run: |
+        if [ ! -f requirements.txt ]; then
+          echo "requirements.txt not found"
+          exit 1
+        fi
+        
+  echo "requirements.txt exists"
+        echo "Contents:"
+        cat requirements.txt
+        
+    - name: Check source files
+      run: |
+        echo "Checking source structure..."
+        
+        if [ ! -f src/code.py ]; then
+          echo "src/code.py not found"
+          exit 1
+        fi
+        
+        if [ ! -f src/keymap.py ]; then
+          echo "src/keymap.py not found"
+          exit 1
+        fi
+        
+        if [ ! -f src/constants.py ]; then
+          echo "src/constants.py not found"
+          exit 1
+        fi
+        
+  echo "All source files present"
+        
+    - name: Validate Python syntax
+      run: |
+        echo "Checking Python syntax..."
+        python -m py_compile src/code.py
+        python -m py_compile src/keymap.py
+        python -m py_compile src/constants.py
+        
+  echo "All Python files have valid syntax"
+        
+    - name: Test library download
+      run: |
+        echo "Testing library download process..."
+        
+        mkdir -p test-build/lib
+        cd test-build
+        
+        # Check PMK submodule
+        if [ -d "../lib/pmk/lib/pmk" ]; then
+          echo "PMK submodule found"
+          cp -r ../lib/pmk/lib/pmk lib/
+        else
+          echo "PMK submodule not found"
+          exit 1
+        fi
+        
+        # Download CircuitPython bundle for Adafruit libraries
+        echo "Downloading CircuitPython bundle..."
+        
+        # Pin to specific version for reproducible builds
+        BUNDLE_VERSION="${{ env.BUNDLE_VERSION }}"
+        BUNDLE_URL="https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/${BUNDLE_VERSION}/adafruit-circuitpython-bundle-py-${BUNDLE_VERSION}.zip"
+        
+        echo "Downloading pinned version: $BUNDLE_VERSION"
+        echo "URL: $BUNDLE_URL"
+        wget "$BUNDLE_URL" -O bundle.zip
+        
+        echo "Extracting bundle..."
+        unzip -q bundle.zip
+        BUNDLE_DIR=$(find . -name "adafruit-circuitpython-bundle-*" -type d)
+        
+        echo "Found bundle: $BUNDLE_DIR"
+        
+        # Check required Adafruit libraries exist
+        if [ ! -d "$BUNDLE_DIR/lib/adafruit_hid" ]; then
+          echo "adafruit_hid not found in bundle"
+          exit 1
+        fi
+        
+        if [ ! -d "$BUNDLE_DIR/lib/adafruit_bus_device" ]; then
+          echo "adafruit_bus_device not found in bundle"
+          exit 1
+        fi
+        
+        if [ ! -d "$BUNDLE_DIR/lib/adafruit_is31fl3731" ]; then
+          echo "adafruit_is31fl3731 not found in bundle"
+          exit 1
+        fi
+        
+  echo "All required Adafruit libraries found in bundle"
+        
+        # Copy Adafruit libraries
+        cp -r "$BUNDLE_DIR/lib/adafruit_hid" lib/
+        cp -r "$BUNDLE_DIR/lib/adafruit_bus_device" lib/
+        cp -r "$BUNDLE_DIR/lib/adafruit_is31fl3731" lib/
+        
+  echo "Libraries copied successfully"
+        echo "Library structure:"
+        find lib -type d | head -10
+        
+    - name: Test package structure
+      run: |
+        echo "Testing complete package structure..."
+        
+        mkdir -p package-test
+        
+        # Copy all files as they would appear on device
+        cp -r src/* package-test/
+        cp -r examples package-test/
+        cp README.md package-test/
+        cp requirements.txt package-test/
+        cp -r test-build/lib package-test/
+        
+        echo "Package contents:"
+        find package-test -type f | sort
+        
+  echo "Package structure valid"
+        
+    - name: Validate examples
+      run: |
+        echo "Validating example configurations..."
+        
+        for example in examples/configs/*.py; do
+          if [ -f "$example" ]; then
+            echo "Checking $example..."
+            python -m py_compile "$example"
+          fi
+        done
+        
+  echo "All examples have valid syntax"
+        
+    - name: Generate build summary
+      run: |
+        echo "## Build Test Summary" >> $GITHUB_STEP_SUMMARY
+  echo "Source files validated" >> $GITHUB_STEP_SUMMARY
+  echo "Python syntax checked" >> $GITHUB_STEP_SUMMARY
+  echo "PMK submodule verified" >> $GITHUB_STEP_SUMMARY
+  echo "Adafruit libraries downloadable" >> $GITHUB_STEP_SUMMARY
+  echo "Package structure valid" >> $GITHUB_STEP_SUMMARY
+  echo "Examples validated" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Ready for release build! 🚀" >> $GITHUB_STEP_SUMMARY
