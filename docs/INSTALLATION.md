@@ -70,7 +70,8 @@ CIRCUITPY/
 
 - **CircuitPython**: 9.2.8 or later
 - **PMK library**: provided as a git submodule under `lib/pmk`
-- **Adafruit libraries**: managed via CircUp or bundled in releases
+- **Adafruit libraries**: managed via CircUp and `cp_requirements.txt`
+   - Run `circup install -r cp_requirements.txt` from the project root to install all required libraries with pinned versions.
 
 ## Getting Help
 

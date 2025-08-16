@@ -45,29 +45,41 @@ jobs:
       run: |
         # Copy core source files
         cp -r src/* build/keybowflow-device-files/
-        
+
         # Copy examples
-        cp -r examples build/keybowflow-device-files/
+        cp -r examples build/keybowflow-device-files/keybowflow/
         
         # Copy documentation
-        mkdir -p build/keybowflow-device-files/docs
-        cp README.md build/keybowflow-device-files/
-        cp docs/INSTALLATION.md build/keybowflow-device-files/docs/
-        cp docs/CONFIGURATION_GUIDE.md build/keybowflow-device-files/docs/
-        cp docs/KEY_REFERENCE.md build/keybowflow-device-files/docs/
-        cp docs/ACTION_REFERENCE.md build/keybowflow-device-files/docs/
-        cp CHANGELOG.md build/keybowflow-device-files/
-        cp scripts/deploy.py build/keybowflow-device-files/
-        cp requirements.txt build/keybowflow-device-files/
+        mkdir -p build/keybowflow-device-files/keybowflow/docs
+        cp README.md build/keybowflow-device-files/keybowflow/
+        cp docs/INSTALLATION.md build/keybowflow-device-files/keybowflow/docs/
+        cp docs/CONFIGURATION_GUIDE.md build/keybowflow-device-files/keybowflow/docs/
+        cp docs/KEY_REFERENCE.md build/keybowflow-device-files/keybowflow/docs/
+        cp docs/ACTION_REFERENCE.md build/keybowflow-device-files/keybowflow/docs/
+        cp CHANGELOG.md build/keybowflow-device-files/keybowflow/
+        cp docs/THIRD_PARTY_LICENSES.md build/keybowflow-device-files/keybowflow/
+        cp LICENSE.md build/keybowflow-device-files/keybowflow/
         
-    - name: Download CircuitPython libraries
+        mkdir -p build/user-documentation
+        cp README.md build/user-documentation/
+        cp LICENSE.md build/user-documentation/
+        cp docs/THIRD_PARTY_LICENSES.md build/user-documentation/docs/
+        cp docs/INSTALLATION.md build/user-documentation/docs/
+        cp docs/CONFIGURATION_GUIDE.md build/user-documentation/docs/
+        cp docs/KEY_REFERENCE.md build/user-documentation/docs/
+        cp docs/ACTION_REFERENCE.md build/user-documentation/docs/
+
+    - name: Install CircUp
+      run: |
+        python -m pip install circup==2.2.2
+
+    - name: Install CircuitPython libraries with CircUp
       run: |
         cd build/keybowflow-device-files
-        
-        # Create lib directory
-        mkdir -p lib
-        
+        circup install -r ../../cp_requirements.txt
+
         # Copy PMK from submodule (version pinned via git)
+        mkdir -p lib
         if [ -d "../../lib/pmk/lib/pmk" ]; then
           echo "Copying PMK from submodule"
           cp -r ../../lib/pmk/lib/pmk lib/
@@ -76,29 +88,6 @@ jobs:
           exit 1
         fi
         
-        # Download Adafruit CircuitPython Bundle for CircUp-managed libraries
-        echo "Downloading CircuitPython bundle..."
-        
-        # Pin to specific version for reproducible builds
-        BUNDLE_VERSION="${{ env.BUNDLE_VERSION }}"
-        BUNDLE_URL="https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/download/${BUNDLE_VERSION}/adafruit-circuitpython-bundle-py-${BUNDLE_VERSION}.zip"
-        
-        echo "Downloading pinned version: $BUNDLE_VERSION"
-        echo "URL: $BUNDLE_URL"
-        wget "$BUNDLE_URL" -O bundle.zip
-        
-        # Extract and copy required Adafruit libraries
-        unzip -q bundle.zip
-        BUNDLE_DIR=$(find . -name "adafruit-circuitpython-bundle-*" -type d)
-        
-        # Copy required Adafruit libraries based on requirements.txt
-        cp -r "$BUNDLE_DIR/lib/adafruit_hid" lib/
-        cp -r "$BUNDLE_DIR/lib/adafruit_bus_device" lib/
-        cp -r "$BUNDLE_DIR/lib/adafruit_is31fl3731" lib/
-        
-        # Clean up
-        rm -rf bundle.zip "$BUNDLE_DIR"
-        
     - name: Create device-ready ZIP
       run: |
         cd build/keybowflow-device-files
@@ -106,9 +95,15 @@ jobs:
         
     - name: Create example configurations ZIP
       run: |
-        cd build/keybowflow-device-files/examples
-        zip -r ../../dist/keybow-examples.zip . -x "*.git*" "*.DS_Store*"
-        
+        cd build/keybowflow-device-files/examples/keybowflow
+        zip -r ../../dist/keybowflow-examples.zip . -x "*.git*" "*.DS_Store*"
+
+
+    - name: Create user documentation ZIP
+      run: |
+        cd build/user-documentation
+        zip -r ../../dist/user-documentation.zip . -x "*.git*" "*.DS_Store*"
+
     - name: Download CircuitPython UF2 firmware
       run: |
         # Download CircuitPython ${{ env.CIRCUITPYTHON_VERSION }} for Keybow 2040
