@@ -26,9 +26,9 @@ from constants import Color, Key, create_simple_keymap
 
 keys = {
     Key.R0C0: Keycode.A,           # Top-left
-    Key.R0C1: Keycode.B,           # Top-right  
+    Key.R0C1: Keycode.B,           # Top, second from left  
     Key.R1C0: [Keycode.CTRL, Keycode.C],  # Second row left (Ctrl+C)
-    Key.R1C1: "Hello World!"       # Second row right (types text)
+    Key.R1C1: "Hello World!"       # Second row, second from left (types text)
 }
 
 colors = {Key.R0C0: Color.BLUE, Key.R0C1: Color.GREEN, Key.R1C0: Color.RED, Key.R1C1: Color.YELLOW}
