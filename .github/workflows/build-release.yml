@@ -13,6 +13,7 @@ on:
 
 env:
   PYTHON_VERSION: '3.13'
+  CIRCUITPYTHON_VERSION: '9.2.8'
   BUNDLE_VERSION: '20250810'
 
 jobs:
@@ -110,8 +111,8 @@ jobs:
         
     - name: Download CircuitPython UF2 firmware
       run: |
-        # Download CircuitPython 9.2.8 for Keybow 2040
-        wget https://downloads.circuitpython.org/bin/pimoroni_keybow2040/en_US/adafruit-circuitpython-pimoroni_keybow2040-en_US-9.2.8.uf2 -O build/dist/circuitpython-keybow2040-9.2.8.uf2
+        # Download CircuitPython ${{ env.CIRCUITPYTHON_VERSION }} for Keybow 2040
+        wget https://downloads.circuitpython.org/bin/pimoroni_keybow2040/en_US/adafruit-circuitpython-pimoroni_keybow2040-en_US-${{ env.CIRCUITPYTHON_VERSION }}.uf2 -O build/dist/circuitpython-keybow2040-${{ env.CIRCUITPYTHON_VERSION }}.uf2
         
     - name: Copy installation guide
       run: |
@@ -137,7 +138,7 @@ jobs:
         echo "Build Date: $(date)" > build/dist/VERSION.txt
         echo "Git Commit: ${{ github.sha }}" >> build/dist/VERSION.txt
         echo "Release Tag: ${{ github.ref_name || github.event.inputs.version }}" >> build/dist/VERSION.txt
-        echo "CircuitPython: 9.2.8" >> build/dist/VERSION.txt
+        echo "CircuitPython: ${{ env.CIRCUITPYTHON_VERSION }}" >> build/dist/VERSION.txt
         
     - name: Generate release body
       id: release_body
@@ -145,7 +146,7 @@ jobs:
         # Generate release body from template
         RELEASE_BODY=$(python .github/scripts/generate_release.py \
           "${{ github.ref_name || github.event.inputs.version }}" \
-          "9.2.8" \
+          "${{ env.CIRCUITPYTHON_VERSION }}" \
           "${{ github.sha }}")
         
         # Save to environment for use in release step
@@ -166,7 +167,7 @@ jobs:
         files: |
           build/dist/keybowflow-device-files.zip
           build/dist/keybow-examples.zip
-          build/dist/circuitpython-keybow2040-9.2.8.uf2
+          build/dist/circuitpython-keybow2040-${{ env.CIRCUITPYTHON_VERSION }}.uf2
           build/dist/INSTALLATION.md
           build/dist/CONFIGURATION_GUIDE.md
           build/dist/KEY_REFERENCE.md

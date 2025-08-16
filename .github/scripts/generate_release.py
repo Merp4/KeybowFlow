@@ -54,7 +54,7 @@ def generate_release_body(version, firmware_version, commit_sha, changelog=None)
         changelog = get_changelog_for_version(version)
     
     # Read the template
-    template_path = Path(__file__).parent.parent / "docs" / "RELEASE_TEMPLATE.md"
+    template_path = Path(__file__).parent / "RELEASE_TEMPLATE.md"
     
     try:
         with open(template_path, 'r', encoding='utf-8') as f:

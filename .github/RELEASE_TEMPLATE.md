@@ -1,6 +1,6 @@
-# Keybow 2040 Release Template
+# KeybowFlow Release Template
 
-## Keybow 2040 Release {version}
+## KeybowFlow Release {version}
 
 ### Quick Installation
 
@@ -10,13 +10,13 @@
 
 ### Files Included
 
-- **keybow-device-files.zip**: Complete project ready for device
+- **keybowflow-device-files.zip**: Complete project ready for device
 - **keybow-examples.zip**: Example configurations  
 - **circuitpython-keybow2040-{firmware_version}.uf2**: CircuitPython {firmware_version} firmware
-- **INSTALLATION.md**: Detailed setup instructions
+- **INSTALLATION.md**: Setup instructions
 - **CONFIGURATION_GUIDE.md**: Create custom keymaps and layers
-- **KEY_REFERENCE.md**: All available keys and controls  
-- **ACTION_REFERENCE.md**: Action types and advanced features
+- **KEY_REFERENCE.md**: Available keys and controls  
+- **ACTION_REFERENCE.md**: Action types and features
 - **CHANGELOG.md**: Version history and changes
 - **THIRD_PARTY_LICENSES.md**: License information for included libraries
 - **LICENSE.txt**: Main project license (MIT)

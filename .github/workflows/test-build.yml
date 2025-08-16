@@ -38,7 +38,7 @@ jobs:
           exit 1
         fi
         
-  echo "requirements.txt exists"
+        echo "requirements.txt exists"
         echo "Contents:"
         cat requirements.txt
         
@@ -61,7 +61,7 @@ jobs:
           exit 1
         fi
         
-  echo "All source files present"
+        echo "All source files present"
         
     - name: Validate Python syntax
       run: |
@@ -70,7 +70,7 @@ jobs:
         python -m py_compile src/keymap.py
         python -m py_compile src/constants.py
         
-  echo "All Python files have valid syntax"
+        echo "All Python files have valid syntax"
         
     - name: Test library download
       run: |
@@ -121,14 +121,14 @@ jobs:
           exit 1
         fi
         
-  echo "All required Adafruit libraries found in bundle"
+        echo "All required Adafruit libraries found in bundle"
         
         # Copy Adafruit libraries
         cp -r "$BUNDLE_DIR/lib/adafruit_hid" lib/
         cp -r "$BUNDLE_DIR/lib/adafruit_bus_device" lib/
         cp -r "$BUNDLE_DIR/lib/adafruit_is31fl3731" lib/
         
-  echo "Libraries copied successfully"
+        echo "Libraries copied successfully"
         echo "Library structure:"
         find lib -type d | head -10
         
@@ -148,7 +148,7 @@ jobs:
         echo "Package contents:"
         find package-test -type f | sort
         
-  echo "Package structure valid"
+        echo "Package structure valid"
         
     - name: Validate examples
       run: |
@@ -161,16 +161,16 @@ jobs:
           fi
         done
         
-  echo "All examples have valid syntax"
+        echo "All examples have valid syntax"
         
     - name: Generate build summary
       run: |
         echo "## Build Test Summary" >> $GITHUB_STEP_SUMMARY
-  echo "Source files validated" >> $GITHUB_STEP_SUMMARY
-  echo "Python syntax checked" >> $GITHUB_STEP_SUMMARY
-  echo "PMK submodule verified" >> $GITHUB_STEP_SUMMARY
-  echo "Adafruit libraries downloadable" >> $GITHUB_STEP_SUMMARY
-  echo "Package structure valid" >> $GITHUB_STEP_SUMMARY
-  echo "Examples validated" >> $GITHUB_STEP_SUMMARY
+        echo "Source files validated" >> $GITHUB_STEP_SUMMARY
+        echo "Python syntax checked" >> $GITHUB_STEP_SUMMARY
+        echo "PMK submodule verified" >> $GITHUB_STEP_SUMMARY
+        echo "Adafruit libraries downloadable" >> $GITHUB_STEP_SUMMARY
+        echo "Package structure valid" >> $GITHUB_STEP_SUMMARY
+        echo "Examples validated" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "Ready for release build! 🚀" >> $GITHUB_STEP_SUMMARY
