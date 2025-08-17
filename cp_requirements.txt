@@ -1,0 +1,7 @@
+# CircuitPython library requirements for KeybowFlow
+# Use circup to install these on your device
+# Example: circup install -r cp_requirements.txt
+
+adafruit_hid==1.13.7
+adafruit_bus_device==5.1.0
+adafruit_is31fl3731==2.0.7
