@@ -2,7 +2,7 @@
 # Layout: [ESC][TAB][Q  ][1 ]   [W ][A ][S ][D ]   [SPC][ALT][C][SFT]   [F1][F2][F3][F4]
 
 from adafruit_hid.keycode import Keycode
-from constants import Color, Key, create_simple_keymap, get_layer_name, get_config_info
+from constants import Color, Key, create_simple_keymap
 
 # Gaming keymap: Key.RxCx -> keycode
 keys = {

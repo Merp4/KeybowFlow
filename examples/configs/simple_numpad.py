@@ -2,7 +2,7 @@
 # Layout: [7][8][9][*]  [4][5][6][-]  [1][2][3][+]  [/][0][.][⏎]
 
 from adafruit_hid.keycode import Keycode
-from constants import Color, create_simple_keymap, get_layer_name, get_config_info
+from constants import Color, create_simple_keymap
 
 # Simple keymap: position -> keycode
 keys = {

@@ -44,7 +44,7 @@ def log_error(*args, **kwargs):
 
 # Import our configuration and constants
 try:
-    from keymap import LAYERS, COLORS, CONFIG, get_layer_name, get_config_info
+    from keymap import LAYERS, COLORS, CONFIG
     log_info("Configuration loaded from keymap.py")
 except ImportError as e:
     log_error(f"Failed to import configuration from keymap.py: {e}")
@@ -84,11 +84,11 @@ class KeybowController:
         self.held_keys = set()
 
         # Display configuration info
-        config_info = get_config_info()
-        log_info("Keybow initialized successfully!")
-        log_info(f"Config: {config_info.get('name')} v{config_info.get('version')}")
-        log_info(f"Starting layer: {self.current_layer} ({get_layer_name(self.current_layer)})")
-        log_info(f"Available layers: {', '.join(config_info.get('layers', {}).values())}")
+    log_info("Keybow initialized successfully!")
+    log_info(f"Config: {CONFIG.get('name', 'Unnamed')} v{CONFIG.get('version', 'None')}")
+    layer_name = LAYERS.get(self.current_layer, {}).get('name', f"Layer {self.current_layer}")
+    log_info(f"Starting layer: {self.current_layer} ({layer_name})")
+    log_info(f"Available layers: {', '.join([l.get('name', str(idx)) for idx, l in LAYERS.items()])}")
 
     def _initialize_hardware(self):
         """Initialize the PMK hardware."""
@@ -368,9 +368,9 @@ class KeybowController:
         self.current_layer = new_layer
         self.update_layer_colors()
 
-        old_name = get_layer_name(old_layer)
-        new_name = get_layer_name(new_layer)
-        log_info(f"Layer switch: {old_name} -> {new_name}")
+    old_name = LAYERS.get(old_layer, {}).get('name', f"Layer {old_layer}")
+    new_name = LAYERS.get(new_layer, {}).get('name', f"Layer {new_layer}")
+    log_info(f"Layer switch: {old_name} -> {new_name}")
 
     def execute_action(self, config, key=None, press_only=False):
         """
@@ -515,7 +515,7 @@ class KeybowController:
         key_count = len(layer_info.get('keys', {}))
         log_info(
             "Layer {idx}: {name} ({count} keys configured)".format(
-                idx=self.current_layer, name=get_layer_name(self.current_layer), count=key_count
+                idx=self.current_layer, name=LAYERS.get(self.current_layer, {}).get('name', f"Layer {self.current_layer}"), count=key_count
             )
         )
 
@@ -554,7 +554,8 @@ class KeybowController:
         log_info("\n" + "="*50)
         log_info("Keybow Controller Starting")
         log_info("="*50)
-        log_info(f"Current layer: {self.current_layer} ({get_layer_name(self.current_layer)})")
+        layer_name = LAYERS.get(self.current_layer, {}).get('name', f"Layer {self.current_layer}")
+        log_info(f"Current layer: {self.current_layer} ({layer_name})")
         if self.modifier_key_num is not None:
             log_info("Hold modifier key + layer key to switch layers")
         log_info("Press Ctrl+C to stop")
