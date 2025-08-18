@@ -1,3 +1,4 @@
 # CircuitPython Development Requirements
 
 # Note: CircuitPython libraries are managed via circup and cp_requirements.txt, not pip.
+circup==2.2.2

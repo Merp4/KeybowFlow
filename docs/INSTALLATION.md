@@ -1,81 +1,50 @@
-# Installation Guide
+# Installation
 
-## Setup
+This document explains how to install a release build of KeybowFlow onto a Keybow 2040 device (CIRCUITPY).
 
-1. Download `keybow-device-files.zip` from the project's releases.
-2. Extract the files to your Keybow 2040 device (appears as the CIRCUITPY drive when connected).
-3. Edit `keymap.py` to customize key behavior.
-4. The device restarts after copying files.
+## Before you begin
 
-## Development Setup
+### Firmware download
 
-For development from source code:
+Keybow 2040 firmware builds (official): https://circuitpython.org/board/pimoroni_keybow2040/
 
-1. **Copy files manually**:
+A compatible UF2 firmware file is also included in the project releases for convenience and compatibility. If you encounter issues with the official firmware, use the UF2 provided in the release artifacts.
 
-   ```bash
-   # Copy source files to your CIRCUITPY drive
-   cp src/*.py /path/to/CIRCUITPY/
-   cp -r lib/* /path/to/CIRCUITPY/lib/
-   ```
+## Install release artifacts
 
-2. **Or use deployment script**:
+1. Download the release artifact (for example, `keybow-device-files.zip`) from the project's releases page.
+2. Extract the archive to a temporary folder.
+3. Copy the extracted runtime files to the device root. On Windows PowerShell:
 
-   ```bash
-   python scripts/deploy.py numpad_minimal.py
-   ```
+```powershell
+# replace <CIRCUITPY> with the actual mount point, for example E:\
+Copy-Item -Path <extracted_path>\* -Destination <CIRCUITPY>\ -Recurse -Force
+```
 
-## CircuitPython Firmware
+After copying, the device should contain the runtime files (for example `code.py`, `keymap.py`, `constants.py`) and a `lib/` directory with required CircuitPython libraries.
 
-Download CircuitPython firmware for Keybow 2040 from:
+## Installing device libraries
 
-- <https://downloads.circuitpython.org/bin/pimoroni_keybow2040/>
+Release artifacts typically include a populated `lib/` directory with the required CircuitPython libraries. If a release does not include `lib/`, install libraries listed in `cp_requirements.txt` using `circup` from a host environment:
 
-## Customization
+```powershell
+circup install -r cp_requirements.txt
+```
 
-- Extract `keybow-examples.zip` for configurations
-- Copy any example config over existing files
-- See `README.md` for customization instructions
+This downloads and installs libraries directly onto the connected device. Only run `circup` when the device is connected and mounted.
+
+## Verifying the install
+
+- Confirm `code.py` (or `main.py`) and `keymap.py` are present on the CIRCUITPY root.
+- Confirm `lib/` contains required libraries referenced by the runtime files.
+- If available, open a serial console to view device logs for errors and startup messages.
 
 ## Troubleshooting
 
-- **Device not appearing**: Try different USB cable or port
-- **Code not working**: Check for syntax errors in `keymap.py`
-- **Missing features**: Ensure all files from ZIP are copied
+- Device not detected: try a different USB cable or port and verify a `CIRCUITPY` volume appears.
+- Missing libraries: ensure `lib/` on the device contains the required CircuitPython packages; if not, use `circup`.
+- Code not running: check for syntax errors and missing imports; use a development environment to reproduce and test if needed.
 
-See the README.md for additional information.
+## Development and source installs
 
-## File Structure After Installation
-
-Once installed, your CIRCUITPY drive should contain:
-
-```text
-CIRCUITPY/
-├── code.py              # Main application entry point
-├── keymap.py            # Your key configuration
-├── constants.py         # System constants and layout
-├── lib/                 # Libraries directory
-│   ├── pmk/            # PMK library (Pimoroni)
-│   ├── adafruit_hid/   # HID library
-│   ├── adafruit_bus_device/
-│   └── adafruit_is31fl3731/
-├── examples/           # Example configurations
-│   ├── configs/        # Pre-built key layouts
-│   └── README.md
-├── scripts/            # Setup and deployment scripts
-└── README.md           # Main documentation
-```
-
-## Version Information
-
-- **CircuitPython**: 9.2.8 or later
-- **PMK library**: provided as a git submodule under `lib/pmk`
-- **Adafruit libraries**: managed via CircUp and `cp_requirements.txt`
-   - Run `circup install -r cp_requirements.txt` from the project root to install all required libraries with pinned versions.
-
-## Getting Help
-
-- **Documentation**: Check `docs/` directory for detailed guides
-- **Examples**: Look in `examples/configs/` for pre-built configurations
-- **Issues**: Report problems at the project repository
-- **Community**: CircuitPython community forums and Discord
+For installing from source or setting up a development environment (virtualenv, tooling, running tests), see `docs/DEVELOPMENT.md`.
