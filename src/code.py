@@ -79,9 +79,14 @@ class KeybowController:
         self._setup_key_handlers()
         self._apply_initial_layer()
 
+
         # Track pressed and held keys for release handling
         self.pressed_keys = set()
         self.held_keys = set()
+
+        # Ensure all keys are set to 'not pressed' at startup
+        for key in self.keys:
+            key.is_pressed = False
 
         # Display configuration info
         log_info("Keybow initialized successfully!")
