@@ -87,7 +87,13 @@ L2 = {
 }
 
 LAYERS = {0: L0, 1: L1, 2: L2}
-CONFIG = {'default_layer': 0, 'modifier_key': Key.R3C0, 'led_brightness': 0.6}
+CONFIG = {
+    'default_layer': 0,
+    'modifier_key': Key.R3C0,
+    'led_brightness': 0.6,
+    # Lighting options: 'static' (default), 'rainbow', 'reactive', etc.
+    'lighting_mode': 'static',  # Change to 'rainbow' or 'reactive' for effects
+}
 
 COLORS = {0: Color.BLUE, 1: Color.RED, 2: Color.CYAN}
 

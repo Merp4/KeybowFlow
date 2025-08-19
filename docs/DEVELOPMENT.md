@@ -8,11 +8,36 @@ Development workflow and debugging for the Keybow 2040.
 
 1. Edit configuration (modify `keymap.py` or create a new config).
 2. Deploy files to the CIRCUITPY drive (manual or using `scripts/deploy.py`).
+	 - **Bash:**
+		 ```bash
+		 cp src/*.py /path/to/CIRCUITPY/
+		 cp -r lib/* /path/to/CIRCUITPY/lib/
+		 ```
+	 - **PowerShell:**
+		 ```powershell
+		 Copy-Item -Path src\* -Destination <CIRCUITPY>\ -Recurse -Force
+		 Copy-Item -Path lib\* -Destination <CIRCUITPY>\lib\ -Recurse -Force
+		 ```
+	 - **Deploy script (both):**
+		 ```bash
+		 python scripts/deploy.py <config-file>
+		 ```
+		 ```powershell
+		 python scripts/deploy.py <config-file>
+		 ```
 3. Monitor serial output for debugging.
 
 ### Custom Configuration
 
 Start from an example in `examples/configs/`, edit it, and deploy using `scripts/deploy.py`.
+	 - **Bash:**
+		 ```bash
+		 python scripts/deploy.py examples/configs/gaming_simple.py
+		 ```
+	 - **PowerShell:**
+		 ```powershell
+		 python scripts/deploy.py examples\configs\gaming_simple.py
+		 ```
 
 
 ## Serial Monitoring
@@ -38,6 +63,10 @@ Get-WmiObject -Class Win32_SerialPort | Select-Object Name, DeviceID
 # Using plink (PuTTY command line)
 plink -serial COM3 -sercfg 115200,8,n,1,N
 
+# Using Windows Terminal (PowerShell serial module):
+Import-Module Serial
+Open-SerialPort -PortName COM3 -BaudRate 115200
+
 # Alternative: Use PuTTY GUI or Windows Terminal
 # First, find the COM port in Device Manager if needed
 ```
@@ -59,12 +88,17 @@ Key 12 pressed - Layer: VS Code
 
 ### Import Errors
 
-- Copy files manually: `cp src/*.py /path/to/CIRCUITPY/`
-- Check `lib/` folder has all libraries
+Copy files manually:
+	- **Bash:** `cp src/*.py /path/to/CIRCUITPY/`
+	- **PowerShell:** `Copy-Item -Path src\* -Destination <CIRCUITPY>\ -Recurse -Force`
+Check `lib/` folder has all libraries
 
 If `lib/pmk` is missing (PMK library submodule), run:
 
 ```bash
+git submodule update --init --recursive
+```
+```powershell
 git submodule update --init --recursive
 ```
 
@@ -102,6 +136,13 @@ Keybow/
 Keep multiple configs for different use cases:
 
 ```bash
+# Gaming
+python scripts/deploy.py gaming_simple.py
+
+# Work
+python scripts/deploy.py productivity_simple.py
+```
+```powershell
 # Gaming
 python scripts/deploy.py gaming_simple.py
 

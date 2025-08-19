@@ -84,11 +84,11 @@ class KeybowController:
         self.held_keys = set()
 
         # Display configuration info
-    log_info("Keybow initialized successfully!")
-    log_info(f"Config: {CONFIG.get('name', 'Unnamed')} v{CONFIG.get('version', 'None')}")
-    layer_name = LAYERS.get(self.current_layer, {}).get('name', f"Layer {self.current_layer}")
-    log_info(f"Starting layer: {self.current_layer} ({layer_name})")
-    log_info(f"Available layers: {', '.join([l.get('name', str(idx)) for idx, l in LAYERS.items()])}")
+        log_info("Keybow initialized successfully!")
+        log_info(f"Config: {CONFIG.get('name', 'Unnamed')} v{CONFIG.get('version', 'None')}")
+        layer_name = LAYERS.get(self.current_layer, {}).get('name', f"Layer {self.current_layer}")
+        log_info(f"Starting layer: {self.current_layer} ({layer_name})")
+        log_info(f"Available layers: {', '.join([l.get('name', str(idx)) for idx, l in LAYERS.items()])}")
 
     def _initialize_hardware(self):
         """Initialize the PMK hardware."""
