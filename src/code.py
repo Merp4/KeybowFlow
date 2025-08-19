@@ -368,9 +368,9 @@ class KeybowController:
         self.current_layer = new_layer
         self.update_layer_colors()
 
-    old_name = LAYERS.get(old_layer, {}).get('name', f"Layer {old_layer}")
-    new_name = LAYERS.get(new_layer, {}).get('name', f"Layer {new_layer}")
-    log_info(f"Layer switch: {old_name} -> {new_name}")
+        old_name = LAYERS.get(old_layer, {}).get('name', f"Layer {old_layer}")
+        new_name = LAYERS.get(new_layer, {}).get('name', f"Layer {new_layer}")
+        log_info(f"Layer switch: {old_name} -> {new_name}")
 
     def execute_action(self, config, key=None, press_only=False):
         """
