@@ -12,7 +12,7 @@ Some releases include a UF2 firmware file. If you encounter issues with the offi
 
 ## Install release artifacts
 
-1. Download the release artifact (for example, `keybow-device-files.zip`) from the project's releases page.
+1. Download the release artifact (for example, `keybowflow-device-files.zip`) from the project's releases page.
 2. Extract the archive to a temporary folder.
 3. Copy the extracted runtime files to the device root. On Windows PowerShell:
 

@@ -61,18 +61,18 @@ def generate_release_body(version, firmware_version, commit_sha, changelog=None)
             template = f.read()
     except FileNotFoundError:
         # Fallback template if file doesn't exist
-        template = """# Keybow 2040 Release {version}
+        template = """# KeybowFlow Release {version}
 
 ### Quick Installation
-1. Download `keybow-device-files.zip`
+1. Download `keybowflow-device-files.zip`
 2. Extract to your Keybow 2040 CIRCUITPY drive
 3. Edit `keymap.py` to customize
 
 ### Files Included
-- **keybow-device-files.zip**: Complete project ready for device
-- **keybow-examples.zip**: Example configurations  
-- **circuitpython-keybow2040-{firmware_version}.uf2**: CircuitPython {firmware_version} firmware
-- **INSTALLATION.md**: Detailed setup instructions
+- keybowflow-device-files.zip (device-ready bundle)
+- keybowflow-examples.zip (example configurations)
+- circuitpython-keybow2040-{firmware_version}.uf2 (CircuitPython firmware)
+- INSTALLATION.md (setup instructions)
 
 ### What's Changed
 {changelog}

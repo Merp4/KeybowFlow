@@ -15,162 +15,145 @@ env:
   PYTHON_VERSION: '3.13'
   CIRCUITPYTHON_VERSION: '9.2.8'
   BUNDLE_VERSION: '20250810'
-
+ 
 jobs:
   build-artifacts:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v5.0.0
-      with:
-        submodules: recursive
-      
-    - name: Set up Python
-      uses: actions/setup-python@v5.6.0
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-        
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install -r requirements.txt
-        
-    - name: Create build directory
-      run: |
-        mkdir -p build/keybowflow-device-files
-        mkdir -p build/dist
-        
-    - name: Copy project files
-      run: |
-        # Copy core source files
-        cp -r src/* build/keybowflow-device-files/
+      - name: Checkout repository
+        uses: actions/checkout@v5.0.0
+        with:
+          submodules: recursive
 
-        # Copy examples
-        cp -r examples build/keybowflow-device-files/keybowflow/
-        
-        # Copy documentation
-        mkdir -p build/keybowflow-device-files/keybowflow/docs
-        cp README.md build/keybowflow-device-files/keybowflow/
-        cp docs/INSTALLATION.md build/keybowflow-device-files/keybowflow/docs/
-        cp docs/CONFIGURATION_GUIDE.md build/keybowflow-device-files/keybowflow/docs/
-        cp docs/KEY_REFERENCE.md build/keybowflow-device-files/keybowflow/docs/
-        cp docs/ACTION_REFERENCE.md build/keybowflow-device-files/keybowflow/docs/
-        cp CHANGELOG.md build/keybowflow-device-files/keybowflow/
-        cp docs/THIRD_PARTY_LICENSES.md build/keybowflow-device-files/keybowflow/
-        cp LICENSE.md build/keybowflow-device-files/keybowflow/
-        
-        mkdir -p build/user-documentation
-        cp README.md build/user-documentation/
-        cp LICENSE.md build/user-documentation/
-        cp docs/THIRD_PARTY_LICENSES.md build/user-documentation/docs/
-        cp docs/INSTALLATION.md build/user-documentation/docs/
-        cp docs/CONFIGURATION_GUIDE.md build/user-documentation/docs/
-        cp docs/KEY_REFERENCE.md build/user-documentation/docs/
-        cp docs/ACTION_REFERENCE.md build/user-documentation/docs/
+      - name: Set up Python
+        uses: actions/setup-python@v5.6.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
 
-    - name: Install CircUp
-      run: |
-        python -m pip install circup==2.2.2
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
 
-    - name: Install CircuitPython libraries with CircUp
-      run: |
-        cd build/keybowflow-device-files
-        circup install -r ../../cp_requirements.txt
+      - name: Create build directories
+        run: |
+          mkdir -p build/keybowflow-device-files
+          mkdir -p build/dist
+          mkdir -p build/user-documentation/docs
 
-        # Copy PMK from submodule (version pinned via git)
-        mkdir -p lib
-        if [ -d "../../lib/pmk/lib/pmk" ]; then
-          echo "Copying PMK from submodule"
-          cp -r ../../lib/pmk/lib/pmk lib/
-        else
-          echo "PMK submodule not found"
-          exit 1
-        fi
-        
-    - name: Create device-ready ZIP
-      run: |
-        cd build/keybowflow-device-files
-        zip -r ../dist/keybowflow-device-files.zip . -x "*.git*" "*.DS_Store*"
-        
-    - name: Create example configurations ZIP
-      run: |
-        cd build/keybowflow-device-files/examples/keybowflow
-        zip -r ../../dist/keybowflow-examples.zip . -x "*.git*" "*.DS_Store*"
+      - name: Copy project files
+        run: |
+          # Copy core source files
+          cp -r src/* build/keybowflow-device-files/
 
+          # Copy examples
+          cp -r examples build/keybowflow-device-files/keybowflow/
 
-    - name: Create user documentation ZIP
-      run: |
-        cd build/user-documentation
-        zip -r ../../dist/user-documentation.zip . -x "*.git*" "*.DS_Store*"
+          # Copy documentation into device bundle
+          mkdir -p build/keybowflow-device-files/keybowflow/docs
+          cp README.md build/keybowflow-device-files/keybowflow/
+          cp docs/INSTALLATION.md build/keybowflow-device-files/keybowflow/docs/
+          cp docs/CONFIGURATION_GUIDE.md build/keybowflow-device-files/keybowflow/docs/
+          cp docs/KEY_REFERENCE.md build/keybowflow-device-files/keybowflow/docs/
+          cp docs/ACTION_REFERENCE.md build/keybowflow-device-files/keybowflow/docs/
+          cp CHANGELOG.md build/keybowflow-device-files/keybowflow/
+          cp docs/THIRD_PARTY_LICENSES.md build/keybowflow-device-files/keybowflow/
+          cp LICENSE build/keybowflow-device-files/keybowflow/
 
-    - name: Download CircuitPython UF2 firmware
-      run: |
-        # Download CircuitPython ${{ env.CIRCUITPYTHON_VERSION }} for Keybow 2040
-        wget https://downloads.circuitpython.org/bin/pimoroni_keybow2040/en_US/adafruit-circuitpython-pimoroni_keybow2040-en_US-${{ env.CIRCUITPYTHON_VERSION }}.uf2 -O build/dist/circuitpython-keybow2040-${{ env.CIRCUITPYTHON_VERSION }}.uf2
-        
-    - name: Copy installation guide
-      run: |
-        # Copy installation guide from source
-        cp docs/INSTALLATION.md build/dist/INSTALLATION.md
-        
-        # Copy user reference documentation
-        cp docs/CONFIGURATION_GUIDE.md build/dist/CONFIGURATION_GUIDE.md
-        cp docs/KEY_REFERENCE.md build/dist/KEY_REFERENCE.md
-        cp docs/ACTION_REFERENCE.md build/dist/ACTION_REFERENCE.md
-        
-        # Copy third-party license information
-        cp docs/THIRD_PARTY_LICENSES.md build/dist/THIRD_PARTY_LICENSES.md
-        
-        # Copy changelog
-        cp CHANGELOG.md build/dist/CHANGELOG.md
-        
-        # Copy main project license
-        cp LICENSE build/dist/LICENSE.txt
-        
-    - name: Create version info
-      run: |
-        echo "Build Date: $(date)" > build/dist/VERSION.txt
-        echo "Git Commit: ${{ github.sha }}" >> build/dist/VERSION.txt
-        echo "Release Tag: ${{ github.ref_name || github.event.inputs.version }}" >> build/dist/VERSION.txt
-        echo "CircuitPython: ${{ env.CIRCUITPYTHON_VERSION }}" >> build/dist/VERSION.txt
-        
-    - name: Generate release body
-      id: release_body
-      run: |
-        # Generate release body from template
-        RELEASE_BODY=$(python .github/scripts/generate_release.py \
-          "${{ github.ref_name || github.event.inputs.version }}" \
-          "${{ env.CIRCUITPYTHON_VERSION }}" \
-          "${{ github.sha }}")
-        
-        # Save to environment for use in release step
-        echo "RELEASE_BODY<<EOF" >> $GITHUB_ENV
-        echo "$RELEASE_BODY" >> $GITHUB_ENV
-        echo "EOF" >> $GITHUB_ENV
-        
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4.6.2
-      with:
-        name: keybow-release-${{ github.ref_name || github.event.inputs.version }}
-        path: build/dist/
-        
-    - name: Create Release (on tag)
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v2.3.2
-      with:
-        files: |
-          build/dist/keybowflow-device-files.zip
-          build/dist/keybow-examples.zip
-          build/dist/circuitpython-keybow2040-${{ env.CIRCUITPYTHON_VERSION }}.uf2
-          build/dist/INSTALLATION.md
-          build/dist/CONFIGURATION_GUIDE.md
-          build/dist/KEY_REFERENCE.md
-          build/dist/ACTION_REFERENCE.md
-          build/dist/THIRD_PARTY_LICENSES.md
-          build/dist/LICENSE.txt
-          build/dist/CHANGELOG.md
-          build/dist/VERSION.txt
-        body: ${{ env.RELEASE_BODY }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # User documentation bundle
+          cp README.md build/user-documentation/
+          cp LICENSE build/user-documentation/
+          cp docs/THIRD_PARTY_LICENSES.md build/user-documentation/docs/
+          cp docs/INSTALLATION.md build/user-documentation/docs/
+          cp docs/CONFIGURATION_GUIDE.md build/user-documentation/docs/
+          cp docs/KEY_REFERENCE.md build/user-documentation/docs/
+          cp docs/ACTION_REFERENCE.md build/user-documentation/docs/
+
+      - name: Install CircUp
+        run: |
+          python -m pip install circup==2.2.2
+
+      - name: Install CircuitPython libraries with CircUp
+        run: |
+          cd build/keybowflow-device-files
+          circup install -r ../../cp_requirements.txt
+
+          # Copy PMK from submodule (version pinned via git)
+          mkdir -p lib
+          if [ -d "../../lib/pmk/lib/pmk" ]; then
+            echo "Copying PMK from submodule"
+            cp -r ../../lib/pmk/lib/pmk lib/
+          else
+            echo "PMK submodule not found"
+            exit 1
+          fi
+
+      - name: Create device-ready ZIP
+        run: |
+          cd build/keybowflow-device-files
+          zip -r ../dist/keybowflow-device-files.zip . -x "*.git*" "*.DS_Store*"
+
+      - name: Create example configurations ZIP
+        run: |
+          cd build/keybowflow-device-files/keybowflow/examples
+          zip -r ../../../dist/keybowflow-examples.zip . -x "*.git*" "*.DS_Store*"
+
+      - name: Create user documentation ZIP
+        run: |
+          cd build/user-documentation
+          zip -r ../dist/user-documentation.zip . -x "*.git*" "*.DS_Store*"
+
+      - name: Download CircuitPython UF2 firmware
+        run: |
+          # Download CircuitPython ${{ env.CIRCUITPYTHON_VERSION }} for Keybow 2040
+          wget https://downloads.circuitpython.org/bin/pimoroni_keybow2040/en_US/adafruit-circuitpython-pimoroni_keybow2040-en_US-${{ env.CIRCUITPYTHON_VERSION }}.uf2 -O build/dist/circuitpython-keybow2040-${{ env.CIRCUITPYTHON_VERSION }}.uf2
+
+      - name: Copy installation guide and docs into dist
+        run: |
+          cp docs/INSTALLATION.md build/dist/INSTALLATION.md
+          cp docs/CONFIGURATION_GUIDE.md build/dist/CONFIGURATION_GUIDE.md
+          cp docs/KEY_REFERENCE.md build/dist/KEY_REFERENCE.md
+          cp docs/ACTION_REFERENCE.md build/dist/ACTION_REFERENCE.md
+          cp docs/THIRD_PARTY_LICENSES.md build/dist/THIRD_PARTY_LICENSES.md
+          cp CHANGELOG.md build/dist/CHANGELOG.md
+          cp LICENSE build/dist/LICENSE.txt
+
+      - name: Create version info
+        run: |
+          echo "Build Date: $(date)" > build/dist/VERSION.txt
+          echo "Git Commit: ${{ github.sha }}" >> build/dist/VERSION.txt
+          echo "Release Tag: ${{ github.ref_name || github.event.inputs.version }}" >> build/dist/VERSION.txt
+          echo "CircuitPython: ${{ env.CIRCUITPYTHON_VERSION }}" >> build/dist/VERSION.txt
+
+      - name: Generate release body
+        run: |
+          python .github/scripts/generate_release.py \
+            "${{ github.ref_name || github.event.inputs.version }}" \
+            "${{ env.CIRCUITPYTHON_VERSION }}" \
+            "${{ github.sha }}" > build/dist/RELEASE_BODY.md
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: keybow-release-${{ github.ref_name || github.event.inputs.version }}
+          path: build/dist/
+
+      - name: Create Release (on tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2.3.2
+        with:
+          files: |
+            build/dist/keybowflow-device-files.zip
+            build/dist/keybowflow-examples.zip
+            build/dist/circuitpython-keybow2040-${{ env.CIRCUITPYTHON_VERSION }}.uf2
+            build/dist/INSTALLATION.md
+            build/dist/CONFIGURATION_GUIDE.md
+            build/dist/KEY_REFERENCE.md
+            build/dist/ACTION_REFERENCE.md
+            build/dist/THIRD_PARTY_LICENSES.md
+            build/dist/LICENSE.txt
+            build/dist/CHANGELOG.md
+            build/dist/VERSION.txt
+          body_path: build/dist/RELEASE_BODY.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

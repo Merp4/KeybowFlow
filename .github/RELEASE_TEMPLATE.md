@@ -4,14 +4,14 @@
 
 ### Quick Installation
 
-1. Download `keybow-device-files.zip`
+1. Download `keybowflow-device-files.zip`
 2. Extract to your Keybow 2040 CIRCUITPY drive
 3. Edit `keymap.py` to customize
 
 ### Files Included
 
 - **keybowflow-device-files.zip**: Complete project ready for device
-- **keybow-examples.zip**: Example configurations  
+- **keybowflow-examples.zip**: Example configurations  
 - **circuitpython-keybow2040-{firmware_version}.uf2**: CircuitPython {firmware_version} firmware
 - **INSTALLATION.md**: Setup instructions
 - **CONFIGURATION_GUIDE.md**: Create custom keymaps and layers
@@ -41,10 +41,10 @@
 
 ### Quick Links
 
-- 📖 **Installation**: See included INSTALLATION.md
-- 🎮 **Examples**: Extract keybow-examples.zip for pre-built configs
-- 🛠️ **Customization**: Edit keymap.py to modify key behaviors
-- 🐛 **Issues**: Report problems at project repository
+- Installation: See included INSTALLATION.md
+- Examples: Extract keybowflow-examples.zip for pre-built configs
+- Customization: Edit keymap.py to modify key behaviors
+- Issues: Report problems at the project repository
 
 ---
 

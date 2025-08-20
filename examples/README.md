@@ -16,9 +16,9 @@
 
 ```bash
 # Choose any configuration (examples shown)
-cp examples/configs/numpad_minimal.py src/keymap.py
-cp examples/configs/gaming_simple.py src/keymap.py  
-cp examples/configs/productivity_simple.py src/keymap.py
+cp examples/configs/simple_numpad.py src/keymap.py
+cp examples/configs/gaming_simple.py src/keymap.py
+cp examples/configs/streaming_setup.py src/keymap.py
 
 # Copy to your device (CIRCUITPY drive)
 cp src/*.py /path/to/CIRCUITPY/
@@ -27,23 +27,20 @@ cp src/*.py /path/to/CIRCUITPY/
 **Or use the deployment script:**
 
 ```bash
-python scripts/deploy.py numpad_minimal.py
+python scripts/deploy.py simple_numpad.py
 ```
 
 ## Available Configurations
 
 ### Single-Layer Layouts
 
-- [`numpad_minimal.py`](configs/numpad_minimal.py) — Calculator-style numpad
+- [`simple_numpad.py`](configs/simple_numpad.py) — Calculator-style numpad
 - [`gaming_simple.py`](configs/gaming_simple.py) — WASD gaming keys and function keys
-- [`productivity_simple.py`](configs/productivity_simple.py) — Common edit/navigation shortcuts
-- [`simple_numpad_lean.py`](configs/simple_numpad_lean.py) — Alternative minimal numpad layout
+- [`streaming_setup.py`](configs/streaming_setup.py) — Streaming controls and hotkeys
 
 ### Multi-Layer Layouts
 
-- [`work_gaming_switch.py`](configs/work_gaming_switch.py) — Dual-mode work/gaming switcher
-- [`streaming_setup.py`](configs/streaming_setup.py) — Streaming controls and hotkeys  
-- [`developer_multitool.py`](configs/developer_multitool.py) — Development environment with layers
+- [`multi_layer_template.py`](configs/multi_layer_template.py) — Template for multi-layer setups
 
 ## Making your own
 

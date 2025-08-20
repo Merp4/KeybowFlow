@@ -10,12 +10,10 @@ A configuration framework for the Pimoroni Keybow 2040 with support for multiple
 
 ## Example configurations
 
-- [`numpad_minimal.py`](examples/configs/numpad_minimal.py) - Calculator-style numpad
+- [`simple_numpad.py`](examples/configs/simple_numpad.py) - Calculator-style numpad
 - [`gaming_simple.py`](examples/configs/gaming_simple.py) - WASD gaming keys and function keys
-- [`productivity_simple.py`](examples/configs/productivity_simple.py) - Common edit/navigation shortcuts
-- [`work_gaming_switch.py`](examples/configs/work_gaming_switch.py) - Dual-mode work/gaming switcher
 - [`streaming_setup.py`](examples/configs/streaming_setup.py) - Streaming controls and hotkeys
-- [`developer_multitool.py`](examples/configs/developer_multitool.py) - Development environment with layers
+- [`multi_layer_template.py`](examples/configs/multi_layer_template.py) - Template for multi-layer setups
 
 ## Configuration example
 
