@@ -109,11 +109,21 @@ def create_simple_keymap(keys, colors=None, name="Simple Keymap"):
                 continue
             key_const = getattr(Key, attr_name)
             if key_const == pos:
-                key_map[key_const] = {
-                    "action_type": ActionType.KEY,
-                    "action": keycode,
-                    "colors": {"default": colors.get(pos, Color.BLUE)},
-                }
+                # If the provided key definition is a dict, pass it through (supports
+                # modifier keys, dual-action keys, layer actions, etc.) and ensure a default color.
+                if isinstance(keycode, dict):
+                    value = dict(keycode)  # shallow copy
+                    # Ensure colors/default present
+                    value.setdefault("colors", {})
+                    value["colors"].setdefault("default", colors.get(pos, Color.BLUE))
+                    key_map[key_const] = value
+                else:
+                    # Simple key (int keycode or list combo)
+                    key_map[key_const] = {
+                        "action_type": ActionType.KEY,
+                        "action": keycode,
+                        "colors": {"default": colors.get(pos, Color.BLUE)},
+                    }
                 break
 
     # Build LAYERS structure
