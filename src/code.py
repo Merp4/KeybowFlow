@@ -1,6 +1,6 @@
 """
-KeybowFlow - Main runtime
-Implements key press and release handling to avoid stuck keys.
+KeybowFlow runtime
+Main entry point for keypad events, layer switching, and LED control.
 """
 
 import time
