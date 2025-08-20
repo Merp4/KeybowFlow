@@ -13,7 +13,7 @@
 
 - Simplified version management (single source of truth in workflows)
 - Consolidated configuration system in constants.py
-- Professional documentation tone (removed promotional language)
+- Adjusted documentation tone to be neutral
 - Fixed requirements.txt version consistency with bundle approach
 
 ### Removed

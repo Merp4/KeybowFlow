@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Simple deployment script for automation.
-For manual use: just copy src/*.py to your CIRCUITPY drive.
+Deployment script for copying runtime files to a CIRCUITPY device.
+For manual use: copy src/*.py to your CIRCUITPY drive.
 """
 
 import sys
@@ -41,7 +41,7 @@ def main():
         shutil.copy2(py_file, device / py_file.name)
         print(f"Copied: {py_file.name}")
     
-    print("Deploy complete")
+    print("Deploy completed")
 
 if __name__ == "__main__":
     main()

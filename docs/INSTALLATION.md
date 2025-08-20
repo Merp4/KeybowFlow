@@ -8,7 +8,7 @@ This document explains how to install a release build of KeybowFlow onto a Keybo
 
 Keybow 2040 firmware builds (official): https://circuitpython.org/board/pimoroni_keybow2040/
 
-A compatible UF2 firmware file is also included in the project releases for convenience and compatibility. If you encounter issues with the official firmware, use the UF2 provided in the release artifacts.
+Some releases include a UF2 firmware file. If you encounter issues with the official firmware, try the UF2 included with the release.
 
 ## Install release artifacts
 
@@ -25,7 +25,7 @@ After copying, the device should contain the runtime files (for example `code.py
 
 ## Installing device libraries
 
-Release artifacts typically include a populated `lib/` directory with the required CircuitPython libraries. If a release does not include `lib/`, install libraries listed in `cp_requirements.txt` using `circup` from a host environment:
+Release artifacts may include a populated `lib/` directory with the required CircuitPython libraries. If a release does not include `lib/`, install libraries listed in `cp_requirements.txt` using `circup` from a host environment:
 
 ```powershell
 circup install -r cp_requirements.txt

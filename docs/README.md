@@ -1,8 +1,8 @@
-# KeybowFlow Documentation
+# KeybowFlow documentation
 
 Documentation for using and developing with KeybowFlow.
 
-## User Guides
+## User guides
 
 ### [Installation Guide](INSTALLATION.md)
 
@@ -12,7 +12,7 @@ Installation instructions and quick start steps.
 
 How to create and customize configurations, with examples and testing notes.
 
-## Reference Documentation
+## Reference documentation
 
 ### [Key Reference](KEY_REFERENCE.md)
 
@@ -22,7 +22,7 @@ Available keys, consumer control codes, modifiers, and examples.
 
 Action types, layer configuration, color themes, and action composition.
 
-## Developer Guides
+## Developer guides
 
 ### [Development Guide](DEVELOPMENT.md)
 

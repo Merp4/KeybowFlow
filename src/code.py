@@ -1,6 +1,6 @@
 """
-KeybowFlow - Main Runtime
-Clean implementation with robust key press/release handling to avoid stuck keys.
+KeybowFlow - Main runtime
+Implements key press and release handling to avoid stuck keys.
 """
 
 import time
