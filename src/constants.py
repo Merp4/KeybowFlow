@@ -75,7 +75,7 @@ class LayerAction:
 
 
 # =====================================================================================
-# SIMPLE KEYMAP HELPERS
+# Keymap helpers
 # =====================================================================================
 
 # Store last-created structures so helper functions can expose useful info
@@ -85,7 +85,7 @@ _LAST_CONFIG = None
 
 def create_simple_keymap(keys, colors=None, name="Simple Keymap"):
     """
-    Convert simple key definitions to full LAYERS format.
+    Convert key definitions to the LAYERS format.
 
     Args:
         keys: dict of {position: keycode} where position is physical key number
@@ -118,7 +118,7 @@ def create_simple_keymap(keys, colors=None, name="Simple Keymap"):
                     value["colors"].setdefault("default", colors.get(pos, Color.BLUE))
                     key_map[key_const] = value
                 else:
-                    # Simple key (int keycode or list combo)
+                    # Key action (int keycode or list combo)
                     key_map[key_const] = {
                         "action_type": ActionType.KEY,
                         "action": keycode,
