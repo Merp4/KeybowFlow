@@ -62,10 +62,10 @@ class KeybowController:
         for key in self.keys:
             key.is_pressed = False
 
-        log_info("Keybow initialized successfully!")
-        log_info(f"Config: {CONFIG.get('name', 'Unnamed')} v{CONFIG.get('version', 'None')}")
-        layer_name = LAYERS.get(self.current_layer, {}).get('name', f"Layer {self.current_layer}")
-        log_info(f"Starting layer: {self.current_layer} ({layer_name})")
+    log_info("Keybow initialized")
+    log_info(f"Config: {CONFIG.get('name', 'Unnamed')} v{CONFIG.get('version', 'None')}")
+    layer_name = LAYERS.get(self.current_layer, {}).get('name', f"Layer {self.current_layer}")
+    log_info(f"Starting layer: {self.current_layer} ({layer_name})")
 
     def _initialize_hardware(self):
         try:
